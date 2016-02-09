@@ -9,7 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dibware.EventDispatcher.Cor
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documents", "Documents", "{4B142BA3-35C1-4FEE-AD53-DAD17FEC29F4}"
 	ProjectSection(SolutionItems) = preProject
-		BlogPost.md = BlogPost.md
+		BlogPost_Pt1.md = BlogPost_Pt1.md
+		BlogPost_Pt2.md = BlogPost_Pt2.md
 	EndProjectSection
 EndProject
 Global

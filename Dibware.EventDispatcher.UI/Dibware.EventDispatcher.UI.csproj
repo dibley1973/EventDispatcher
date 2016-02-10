@@ -45,9 +45,24 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Base\ApplicationEventHandlingBase.cs" />
+    <Compile Include="FormControllers\MainFormController.cs" />
+    <Compile Include="Forms\Base\ApplicationEventHandlingFormBase.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\MainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\MainForm.Designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Events\ProcessExiting.cs" />
     <Compile Include="MainProcess.cs" />
+    <Compile Include="Events\ProcessStarted.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Forms\MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

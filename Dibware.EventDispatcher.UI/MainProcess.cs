@@ -1,13 +1,19 @@
 ﻿using Dibware.EventDispatcher.Core.Contracts;
 using Dibware.EventDispatcher.UI.Base;
+using Dibware.EventDispatcher.UI.Events;
+using Dibware.EventDispatcher.UI.FormControllers;
+using System.Windows.Forms;
 
 namespace Dibware.EventDispatcher.UI
 {
     internal class MainProcess : ApplicationEventHandlingBase
     {
+        private MainFormController _mainFormController;
+
         public MainProcess(IApplicationEventDispatcher applicationEventDispatcher)
             : base(applicationEventDispatcher)
         {
+            _mainFormController = new MainFormController(applicationEventDispatcher);
         }
 
         ~MainProcess()
@@ -31,6 +37,17 @@ namespace Dibware.EventDispatcher.UI
             Disposed = true;
         }
 
+        private void HandleProcessExiting(ProcessExiting @event)
+        {
+            Application.Exit();
+        }
+
+        public void Start()
+        {
+            WireUpApplicationEventHandlers();
+            ApplicationEventDispatcher.Dispatch(new ProcessStarted());
+        }
+
         protected override void UnwireApplicationEventHandlers()
         {
 
@@ -38,7 +55,7 @@ namespace Dibware.EventDispatcher.UI
 
         protected override void WireUpApplicationEventHandlers()
         {
-
+            ApplicationEventDispatcher.AddListener<ProcessExiting>(HandleProcessExiting);
         }
     }
 }

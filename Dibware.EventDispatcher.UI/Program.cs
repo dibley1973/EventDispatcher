@@ -21,6 +21,7 @@ namespace Dibware.EventDispatcher.UI
             {
                 applicationEventDispatcher = new ApplicationEventDispatcher();
                 mainProcess = new MainProcess(applicationEventDispatcher);
+                mainProcess.Start();
 
                 Application.Run();
             }

@@ -1,5 +1,8 @@
 # Centralised Event Dispatcher in C# - Part 1
-In this series of posts I am going to share with you the solution I have used in a recent project for a centralised event dispatcher. All of the source code will be available in my public GitHub repositories. The concept I have tried to realise is a central class that can raise events for any listener to subscribe to.
+In this series of posts I am going to share with you the solution I have used in a recent project for a centralised event dispatcher. All of the source code will be available in my public GitHub repositories. The concept I have tried to realise is a central class that can raise events for any listener to subscribe to. 
+
+## Assumptions
+It is assumed that the reader of this article already has a good understanding of coding with C#, can create projects and solutions, classes and Windows Forms, and can add references to aproject and import references into a class. It is also assumed the reader understands basic inheritance and interface implementation.
 
 ## Solution
 I have created a solution with two projects, one a windows forms application project which I have called `Dibware.EventDispatcher.UI` and the other is a class library called `Dibware.EventDispatcher.Core`. I will place all of the event dispatcher code in the class library so that if you like the solution then you can just pick the DLL up and start using it in your own projects without the clutter of the consuming code.
@@ -173,10 +176,31 @@ Theoretically all code that subscribes to the event dispatcher's events will det
             _disposed = true;
         }
 
-And this method will look like below.
+And this method will gather all of the handler types, iterating through them un-wiring all of the delegates in the invocation lists and finally when no delegates exist for the handler type, removes the dictionary entry. 
 
-<TBC>
+        private void RemoveAllListeners()
+        {
+            var handlerTypes = new Type[_applicationEventHandlers.Keys.Count];
+            _applicationEventHandlers.Keys.CopyTo(handlerTypes, 0);
 
+            foreach (Type handlerType in handlerTypes)
+            {
+                Delegate[] delegates = _applicationEventHandlers[handlerType].GetInvocationList();
+                foreach (Delegate @delegate1 in delegates)
+                {
+                    var handlerToRemove = Delegate.Remove(_applicationEventHandlers[handlerType], @delegate1);
+                    if (handlerToRemove == null)
+                    {
+                        _applicationEventHandlers.Remove(handlerType);
+                    }
+                    else
+                    {
+                        _applicationEventHandlers[handlerType] = handlerToRemove;
+                    }
+                }
+            }
+        }
 
+In part two we will look at implementing the `ApplicationEventDispatcher` from a Windows Forms application.
 
-
+Full code available here at [My EventDispatcher GitHub repository](https://github.com/dibley1973/EventDispatcher)

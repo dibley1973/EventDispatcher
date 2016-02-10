@@ -108,43 +108,25 @@ namespace Dibware.EventDispatcher.Core
 
         private void RemoveAllListeners()
         {
-            foreach (Type handlerType in _applicationEventHandlers.Keys)
+            var handlerTypes = new Type[_applicationEventHandlers.Keys.Count];
+            _applicationEventHandlers.Keys.CopyTo(handlerTypes, 0);
+
+            foreach (Type handlerType in handlerTypes)
             {
                 Delegate[] delegates = _applicationEventHandlers[handlerType].GetInvocationList();
-                foreach (Delegate @delegate in delegates)
+                foreach (Delegate @delegate1 in delegates)
                 {
-                    dynamic applicationEventHandler = Convert.ChangeType(@delegate, handlerType);
-                    _applicationEventHandlers[handlerType] -= applicationEventHandler;
+                    var handlerToRemove = Delegate.Remove(_applicationEventHandlers[handlerType], @delegate1);
+                    if (handlerToRemove == null)
+                    {
+                        _applicationEventHandlers.Remove(handlerType);
+                    }
+                    else
+                    {
+                        _applicationEventHandlers[handlerType] = handlerToRemove;
+                    }
                 }
             }
-
-            //Delegate[] delegates2 = _applicationEventHandlers[handlerType].GetInvocationList();
-            //foreach (Delegate @delegate1 in delegates)
-            //{
-            //    var handlerToRemove = Delegate.Remove(_applicationEventHandlers[handlerType], @delegate1);
-            //    if (handlerToRemove == null)
-            //    {
-            //        _applicationEventHandlers.Remove(handlerType);
-            //    }
-            //    else
-            //    {
-            //        _applicationEventHandlers[handlerType] = handlerToRemove;
-            //    }
-            //}
-
-
-            //while (delegates2.Length > 0)
-            //{
-            //    var handlerToRemove = Delegate.Remove(_applicationEventHandlers[handlerType, handler);
-            //    if (handlerToRemove == null)
-            //    {
-            //        _applicationEventHandlers.Remove(typeof(TEvent));
-            //    }
-            //    else
-            //    {
-            //        _applicationEventHandlers[typeof(TEvent)] = handlerToRemove;
-            //    }
-            //}
         }
     }
 }

@@ -46,6 +46,8 @@ namespace Dibware.EventDispatcher.Core
         public void AddListener<TEvent>(ApplicationEventHandlerDelegate<TEvent> handler)
             where TEvent : IApplicationEvent
         {
+            // TODO: Investigate; https://gist.github.com/stfx/3786466 tryGet
+
             if (_applicationEventHandlers.ContainsKey(typeof(TEvent)))
             {
                 Delegate handlersForType = _applicationEventHandlers[typeof(TEvent)];

@@ -2,6 +2,7 @@
 using Dibware.EventDispatcher.UI.Base;
 using Dibware.EventDispatcher.UI.Events;
 using Dibware.EventDispatcher.UI.Forms;
+using System.Diagnostics;
 
 namespace Dibware.EventDispatcher.UI.FormControllers
 {

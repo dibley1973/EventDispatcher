@@ -46,12 +46,10 @@ namespace Dibware.EventDispatcher.Core
         public void AddListener<TEvent>(ApplicationEventHandlerDelegate<TEvent> handler)
             where TEvent : IApplicationEvent
         {
-            // TODO: Investigate; https://gist.github.com/stfx/3786466 tryGet
-
-            if (_applicationEventHandlers.ContainsKey(typeof(TEvent)))
+            Delegate @delegate;
+            if (_applicationEventHandlers.TryGetValue(typeof(TEvent), out @delegate))
             {
-                Delegate handlersForType = _applicationEventHandlers[typeof(TEvent)];
-                _applicationEventHandlers[typeof(TEvent)] = Delegate.Combine(handlersForType, handler);
+                _applicationEventHandlers[typeof(TEvent)] = Delegate.Combine(@delegate, handler);
             }
             else
             {
@@ -62,16 +60,18 @@ namespace Dibware.EventDispatcher.Core
         public void RemoveListener<TEvent>(ApplicationEventHandlerDelegate<TEvent> handler)
             where TEvent : IApplicationEvent
         {
-            if (_applicationEventHandlers.ContainsKey(typeof(TEvent)))
+            Delegate @delegate;
+            if (_applicationEventHandlers.TryGetValue(typeof(TEvent), out @delegate))
             {
-                var handlerToRemove = Delegate.Remove(_applicationEventHandlers[typeof(TEvent)], handler);
-                if (handlerToRemove == null)
+                Delegate currentDel = Delegate.Remove(@delegate, handler);
+
+                if (currentDel == null)
                 {
                     _applicationEventHandlers.Remove(typeof(TEvent));
                 }
                 else
                 {
-                    _applicationEventHandlers[typeof(TEvent)] = handlerToRemove;
+                    _applicationEventHandlers[typeof(TEvent)] = currentDel;
                 }
             }
         }

@@ -74,8 +74,7 @@ namespace Dibware.EventDispatcher.Core
             }
         }
 
-
-        public void Raise<T>(T @event) where T : IApplicationEvent
+        public void Dispatch<TEvent>(TEvent @event) where TEvent : IApplicationEvent
         {
             if (@event == null)
             {
@@ -83,26 +82,13 @@ namespace Dibware.EventDispatcher.Core
             }
 
             Delegate @delegate;
-            if (_applicationEventHandlers.TryGetValue(typeof(T), out @delegate))
+            if (_applicationEventHandlers.TryGetValue(typeof(TEvent), out @delegate))
             {
-                ApplicationEventHandlerDelegate<T> callback = @delegate as ApplicationEventHandlerDelegate<T>;
+                ApplicationEventHandlerDelegate<TEvent> callback = @delegate as ApplicationEventHandlerDelegate<TEvent>;
                 if (callback != null)
                 {
                     callback(@event);
                 }
-            }
-        }
-
-        public void Dispatch(IApplicationEvent @event)
-        {
-            if (@event == null)
-            {
-                return;
-            }
-
-            if (_applicationEventHandlers.ContainsKey(@event.GetType()))
-            {
-                _applicationEventHandlers[@event.GetType()].DynamicInvoke(@event);
             }
         }
 

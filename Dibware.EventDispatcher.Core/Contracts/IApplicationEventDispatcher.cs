@@ -6,8 +6,6 @@ namespace Dibware.EventDispatcher.Core.Contracts
     {
         void AddListener<TEvent>(ApplicationEventHandlerDelegate<TEvent> handler) where TEvent : IApplicationEvent;
         void RemoveListener<TEvent>(ApplicationEventHandlerDelegate<TEvent> handler) where TEvent : IApplicationEvent;
-        void Dispatch(IApplicationEvent @event);
-
-        void Raise<T>(T @event) where T : IApplicationEvent;
+        void Dispatch<TEvent>(TEvent @event) where TEvent : IApplicationEvent;
     }
 }

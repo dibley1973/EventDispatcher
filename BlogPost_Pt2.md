@@ -1,8 +1,8 @@
 # Centralised Event Dispatcher in C# - Part 2
-This is the second part in a series of posts where I am going to share with you the solution I have used in a recent project for a centralised event dispatcher. All of the source code will be available in my public GitHub repositories. The concept I have tried to realise is a central class that can raise events for any listener to subscribe to. In part one we created the event dispatcher class library, and in this part we are going to consume it from a windows forms application.
+This is the second part in a series of posts where I am going to share with you the solution I have used in a recent project for a centralised event dispatcher. All of the source code will be available in my public GitHub repositories. The concept I have tried to realise is a central class that can raise events for any listener to subscribe to. In [part one](http://www.duanewingett.info/2016/02/10/CentralisedEventDispatcherInCPart1.aspx) we created the event dispatcher class library, and in this part we are going to consume it from a windows forms application.
 
 ## Assumptions
-It is assumed that the reader of this article already has a good understanding of coding with C#, can create projects and solutions, classes and Windows Forms, and can add references to aproject and import references into a class. It is also assumed the reader understands basic inheritance and interface implementation.
+It is assumed that the reader of this article already has a good understanding of coding with C#, can create projects and solutions, classes and Windows Forms, and can add references to a project and import references into a class. It is also assumed the reader understands basic inheritance and interface implementation.
 
 ### Dibware.EventDispatcher.UI
     
@@ -291,6 +291,7 @@ We can now raise a new event `ProcessExiting` in the `ExitButton_Click` handler 
  
     private void ExitButton_Click(object sender, EventArgs e)
     {
+        Hide();
         ApplicationEventDispatcher.Dispatch(new ProcessExiting());
     }
  
@@ -322,10 +323,46 @@ and ensure that the `WireUpApplicationEventHandlers` is called from the `Start` 
         ApplicationEventDispatcher.Dispatch(new ProcessStarted());
     }
 
-
-
+We should probably dispose of `_mainForm` and set it to null in the `Dispose(bool)` method of the `MainFormController` too.
     
+So lets run up the application and watch as the `MainForm` is displayed. Clicking the exit button closes the form and the application exits. So all is bright and rosy in this exciting event driven world, hey? Well not quite. If you place a break point in the `RemoveAllListeners` method of `ApplicationEventDispatcher` you will see this is called and the both of the event handlers are removed here. The issue we have is it's not really the responsibility for the `ApplicationEventDispatcher` to clear up after all of the classes which subscribe to its events. Its should still do a final check and clear up, but ideally each subscriber should clear up after its self.
+
+#### Clean up
+
+So lets look at the two classes which have subscribed to events from the `ApplicationEventDispatcher`. We have `MainProcess` and `MainFormController`. Now both of these classes implement `IDisposable`, so in the `disposing` code path of the `Dispose(bool)` method of both of these classes lets call `UnwireApplicationEventHandlers()`. Also in the `Dispose(bool)` method of  the `MainProcess` lets also ensure `Dispose` is called on the `_mainFormController`, so it can call through and un-wire it's handlers.
+
+    protected override void Dispose(bool disposing)
+    {
+        if (Disposed) return;
+
+        if (disposing)
+        {
+            // Free other managed objects that implement IDisposable only
+            _mainFormController.Dispose();
+            UnwireApplicationEventHandlers();
+        }
+
+        // release any unmanaged objects
+        // set the object references to null
+
+        Disposed = true;
+    }
+
+Now if we move to the `UnwireApplicationEventHandlers` method of each class we will call 
+
+    ApplicationEventDispatcher.RemoveListener<ProcessStarted>(HandleProcessStarted);
+            
+... for the 'MainFormController' class and...
+            
+    ApplicationEventDispatcher.AddListener<ProcessExiting>(HandleProcessExiting);
+
+... for the `MainProcess` class respectively.
+ 
+
+Now if we run the application with a breakpoint in the `RemoveAllListeners` method of `ApplicationEventDispatcher` you will see there are no handlers registered. Bingo! All subscribers that we currently have are cleaning up after themselves. What good little children we have! And we can feel warm and fluffy as we know we are doing our bit to help the GarbageCollector.
     
-In part three we will look at pooling events commonly used events.
+In part three we will look at pooling events commonly used events, as spawning lots of new event objects could lead to problems in a memory concious system.
 
 Full code available here at [My EventDispatcher GitHub repository](https://github.com/dibley1973/EventDispatcher)
+
+[Part One](http://www.duanewingett.info/2016/02/10/CentralisedEventDispatcherInCPart1.aspx)

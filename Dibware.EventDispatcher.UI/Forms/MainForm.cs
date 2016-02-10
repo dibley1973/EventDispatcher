@@ -15,6 +15,8 @@ namespace Dibware.EventDispatcher.UI.Forms
 
         private void ExitButton_Click(object sender, EventArgs e)
         {
+            Hide();
+            //ApplicationEventDispatcher.Dispatch(new ProcessExiting());
             ApplicationEventDispatcher.Dispatch(new ProcessExiting());
         }
     }

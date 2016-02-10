@@ -29,7 +29,10 @@ namespace Dibware.EventDispatcher.UI.FormControllers
             if (disposing)
             {
                 // free other managed objects that implement IDisposable only
+                UnwireApplicationEventHandlers();
 
+                _mainForm.Dispose();
+                _mainForm = null;
             }
 
             // release any unmanaged objects
@@ -45,7 +48,7 @@ namespace Dibware.EventDispatcher.UI.FormControllers
 
         protected override void UnwireApplicationEventHandlers()
         {
-            throw new System.NotImplementedException();
+            ApplicationEventDispatcher.RemoveListener<ProcessStarted>(HandleProcessStarted);
         }
 
         protected override sealed void WireUpApplicationEventHandlers()

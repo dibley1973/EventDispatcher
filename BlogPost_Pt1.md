@@ -2,7 +2,7 @@
 In this series of posts I am going to share with you the solution I have used in a recent project for a centralised event dispatcher. All of the source code will be available in my public GitHub repositories. The concept I have tried to realise is a central class that can raise events for any listener to subscribe to. 
 
 ## Assumptions
-It is assumed that the reader of this article already has a good understanding of coding with C#, can create projects and solutions, classes and Windows Forms, and can add references to aproject and import references into a class. It is also assumed the reader understands basic inheritance and interface implementation.
+It is assumed that the reader of this article already has a good understanding of coding with C#, can create projects and solutions, classes and Windows Forms, and can add references to a project and import references into a class. It is also assumed the reader understands basic inheritance and interface implementation.
 
 ## Solution
 I have created a solution with two projects, one a windows forms application project which I have called `Dibware.EventDispatcher.UI` and the other is a class library called `Dibware.EventDispatcher.Core`. I will place all of the event dispatcher code in the class library so that if you like the solution then you can just pick the DLL up and start using it in your own projects without the clutter of the consuming code.
@@ -24,7 +24,7 @@ In the same folder I will create a public interface contract which the event dis
     {
         void AddListener<TEvent>(ApplicationEventHandlerDelegate<TEvent> handler) where TEvent : IApplicationEvent;
         void RemoveListener<TEvent>(ApplicationEventHandlerDelegate<TEvent> handler) where TEvent : IApplicationEvent;
-        void Dispatch(IApplicationEvent @event);
+        void Dispatch<TEvent>(TEvent @event) where TEvent : IApplicationEvent;
     }
 
 Now we can create the public dispatcher class itself, and we will put this in the root of the class library assembly. We will call it `ApplicationEventDispatcher` and it will implement the `IApplicationEventDispatcher` interface and inherently `IDisposable`.
@@ -46,7 +46,7 @@ Now we can create the public dispatcher class itself, and we will put this in th
             throw new System.NotImplementedException();
         }
 
-        public void Dispatch(IApplicationEvent @event)
+        public void Dispatch<TEvent>(TEvent @event) where TEvent : IApplicationEvent
         {
             throw new System.NotImplementedException();
         }
@@ -123,7 +123,7 @@ We can now focus on adding listeners to the dispatcher by adding implementation 
             }
         }
 
-if what goes up must come down then what gets added must be given a fair crack of the whip to be removed. We can provide this by adding implementation into the empty `RemoveListener` method. Again the first task is to see if we have any evens in the dictionary for the type of the event. If we do then we can look to see if our handler is in the delegates, and if it  remove it from the delegate invocation list. If there are no more delegates in the invocation list then remove the dictionary entry altogether.
+If what goes up must come down then what gets added must be given a fair crack of the whip to be removed. We can provide this by adding implementation into the empty `RemoveListener` method. Again the first task is to see if we have any evens in the dictionary for the type of the event. If we do then we can look to see if our handler is in the delegates, and if it  remove it from the delegate invocation list. If there are no more delegates in the invocation list then remove the dictionary entry altogether.
 
         public void RemoveListener<TEvent>(ApplicationEventHandlerDelegate<TEvent> handler) where TEvent : IApplicationEvent
         {
@@ -141,20 +141,25 @@ if what goes up must come down then what gets added must be given a fair crack o
             }
         }
 
-Now we have methods to add handlers to and remove them from our dispatcher lets provide some functionality to dispatch an event to any subscribed listeners. If the event passed is null then just bug-out of the method straight away, otherwise use the type of the event to look for handlers of that event in the dictionary, if there are handlers for the event, then invoke them!
+Now we have methods to add handlers to and remove them from our dispatcher lets provide some functionality to dispatch an event to any subscribed listeners. If the event passed is null then throw an exception straight away, otherwise use the type of the event to look for handlers of that event in the dictionary, if there are handlers for the event, then invoke them!
 
-        public void Dispatch(IApplicationEvent @event)
+    public void Dispatch<TEvent>(TEvent @event) where TEvent : IApplicationEvent
+    {
+        if (@event == null)
         {
-            if (@event == null)
-            {
-                return;
-            }
+            throw new ArgumentNullException("event");
+        }
 
-            if (_applicationEventHandlers.ContainsKey(@event.GetType()))
+        Delegate @delegate;
+        if (_applicationEventHandlers.TryGetValue(typeof(TEvent), out @delegate))
+        {
+            ApplicationEventHandlerDelegate<TEvent> callback = @delegate as ApplicationEventHandlerDelegate<TEvent>;
+            if (callback != null)
             {
-                _applicationEventHandlers[@event.GetType()].DynamicInvoke(@event);
+                callback(@event);
             }
         }
+    }
 
 Theoretically all code that subscribes to the event dispatcher's events will detach their own handlers, but being aware that subscribing code may be not carry out this task we need to ensure all handlers are disconnected when this event dispatcher is disposed. For this we will add a `RemoveAllListeners` method which we will call from the `disposing` code path in `Dispose(bool)`.
 
@@ -201,6 +206,6 @@ And this method will gather all of the handler types, iterating through them un-
             }
         }
 
-In part two we will look at implementing the `ApplicationEventDispatcher` from a Windows Forms application.
+That is it for part one, we have created the `ApplicationEventDispatcher`. In part two we will look at implementing it in a Windows Forms application.
 
 Full code available here at [My EventDispatcher GitHub repository](https://github.com/dibley1973/EventDispatcher)

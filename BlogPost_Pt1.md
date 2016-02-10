@@ -110,12 +110,13 @@ The next task is to create a backing store for the event handlers. For this we w
 
 We can now focus on adding listeners to the dispatcher by adding implementation into the empty `AddListener` method. The first task is to see if our dictionary store already has any delegates for the type of event handler we are adding. If we do then we get a reference to the delegates and combine the new one with them. If there id not one present then we add the handler into the dictionary using the event type as the key.
 
-        public void AddListener<TEvent>(ApplicationEventHandlerDelegate<TEvent> handler) where TEvent : IApplicationEvent
+        public void AddListener<TEvent>(ApplicationEventHandlerDelegate<TEvent> handler)
+            where TEvent : IApplicationEvent
         {
-            if (_applicationEventHandlers.ContainsKey(typeof(TEvent)))
+            Delegate @delegate;
+            if (_applicationEventHandlers.TryGetValue(typeof(TEvent), out @delegate))
             {
-                Delegate handlersForType = _applicationEventHandlers[typeof(TEvent)];
-                _applicationEventHandlers[typeof(TEvent)] = Delegate.Combine(handlersForType, handler);
+                _applicationEventHandlers[typeof(TEvent)] = Delegate.Combine(@delegate, handler);
             }
             else
             {
@@ -125,18 +126,21 @@ We can now focus on adding listeners to the dispatcher by adding implementation 
 
 If what goes up must come down then what gets added must be given a fair crack of the whip to be removed. We can provide this by adding implementation into the empty `RemoveListener` method. Again the first task is to see if we have any evens in the dictionary for the type of the event. If we do then we can look to see if our handler is in the delegates, and if it  remove it from the delegate invocation list. If there are no more delegates in the invocation list then remove the dictionary entry altogether.
 
-        public void RemoveListener<TEvent>(ApplicationEventHandlerDelegate<TEvent> handler) where TEvent : IApplicationEvent
+        public void RemoveListener<TEvent>(ApplicationEventHandlerDelegate<TEvent> handler)
+            where TEvent : IApplicationEvent
         {
-            if (_applicationEventHandlers.ContainsKey(typeof(TEvent)))
+            Delegate @delegate;
+            if (_applicationEventHandlers.TryGetValue(typeof(TEvent), out @delegate))
             {
-                var handlerToRemove = Delegate.Remove(_applicationEventHandlers[typeof(TEvent)], handler);
-                if (handlerToRemove == null)
+                Delegate currentDel = Delegate.Remove(@delegate, handler);
+
+                if (currentDel == null)
                 {
                     _applicationEventHandlers.Remove(typeof(TEvent));
                 }
                 else
                 {
-                    _applicationEventHandlers[typeof(TEvent)] = handlerToRemove;
+                    _applicationEventHandlers[typeof(TEvent)] = currentDel;
                 }
             }
         }

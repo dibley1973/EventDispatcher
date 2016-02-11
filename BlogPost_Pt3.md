@@ -1,7 +1,7 @@
 # Centralised Event Dispatcher in C# - Part 3
 This is part three of a series of posts where I am going to share with you the solution I have used in a recent project for a centralised event dispatcher. All of the source code will be available in my public GitHub repositories. The concept I have tried to realise is a central class that can raise events for any listener to subscribe to. 
 
-In [part one](http://www.duanewingett.info/2016/02/10/CentralisedEventDispatcherInCPart1.aspx) we created the event dispatcher class library, in [part two](http://www.duanewingett.info/2016/02/10/CentralisedEventDispatcherInCPart1.aspx) we consumed it from a windows forms application. In this part we are going to look at pooling commonly raised events and implement an 'ApplicationEventPool'.
+In [part one](http://www.duanewingett.info/2016/02/10/CentralisedEventDispatcherInCPart1.aspx) we created the event dispatcher class library, in [part two](http://www.duanewingett.info/2016/02/11/CentralisedEventDispatcherInCPart2.aspx) we consumed it from a windows forms application. In this part we are going to look at pooling commonly raised events and implement an 'ApplicationEventPool'.
 
 ## Assumptions
 It is assumed that the reader of this article already has a good understanding of coding with C#, can create projects and solutions, classes and Windows Forms, and can add references to a project and import references into a class. It is also assumed the reader understands basic inheritance and interface implementation.
@@ -70,10 +70,7 @@ public class ApplicationEventPool : IApplicationEventPool
 
         public bool TryRemove(Type eventType) //where TEvent : class, IApplicationEvent
         {
-            if (!_applicationEvents.ContainsKey(eventType)) return false;
-
-            _applicationEvents.Remove(eventType);
-            return true;
+            throw new NotImplementedException();
         }
 
         public void Clear()
@@ -105,7 +102,7 @@ As we haven't got an event called `HelloWorldShouted`, we had better create one 
         }
     }
 
-Now we need to add a handler method to the main Form controller and wire it up and un-wire it in the `v` and `UnwireApplicationEventHandlers` methods respectively.
+Now we need to add a handler method to the main Form controller and wire it up and un-wire it in the `WireUpApplicationEventHandlers` and `UnwireApplicationEventHandlers` methods respectively.
 
     protected override void UnwireApplicationEventHandlers()
     {
@@ -180,7 +177,7 @@ Now we have a reference to the `ApplicationEventPool` in the `MainForm` lets mod
     
 So now we declare an event but we wont instantiate it yet. We will try and get this event from the `ApplicationEventPool` and if it exists we will pass that to teh event dispatcher, but if one does not exist then we will create one and pass that instead.
 
-### Clean-up
+### Clean-Up
 
 We do have an small clean-up task to do in the `MainProcess` where the `ApplicationEventPool` was instantiated. We must clear the pool in the `Dispose(bool)` method.
 
@@ -205,7 +202,10 @@ We do have an small clean-up task to do in the `MainProcess` where the `Applicat
 ### Summary
 So now we can reuse any common events through the lifetime of the application. However we are not out of the woods yet. Why? Well, this event pool is great for simple events, that carry no data or immutable data that will be the same for each time the event is dispatched but what if our events are mutable or immutable after construction? We can't trust that they will be in the right state when we dispatch them so two class could dispatch the event and require different data within the event. so how will we handle that? Well we will look at handling them in the next part, part 4.
 
-## Disclaimer - Memory Usage
+### Disclaimer - Memory Usage
 I am not an expert on Garbage Collection, so please be aware that pooling may not be the best solution for a memory problem using this Event Dispatcher. Pooling may lead to objects that should be short lived and would normally live in Generation 0 and get reclaimed quickly, being moved to Generation 1 or 2 and maybe not being reclaimed until the process ends. You can use `PerfMon.exe` or other profiling tools to help identify memory issues, and make an informed decision on how to combat them.
 
 For further information on the Garbage Collector and [Garbage Collector Generations](https://msdn.microsoft.com/en-us/library/ee787088(v=vs.110).aspx#generations) please see [Fundamentals of Garbage Collection](https://msdn.microsoft.com/en-us/library/ee787088(v=vs.110).aspx)
+
+[Part One](http://www.duanewingett.info/2016/02/10/CentralisedEventDispatcherInCPart1.aspx)
+[Part Two](http://www.duanewingett.info/2016/02/11/CentralisedEventDispatcherInCPart2.aspx)

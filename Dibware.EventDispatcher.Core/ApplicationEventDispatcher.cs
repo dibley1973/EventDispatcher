@@ -78,10 +78,9 @@ namespace Dibware.EventDispatcher.Core
 
         public void Dispatch<TEvent>(TEvent @event) where TEvent : IApplicationEvent
         {
-            if (@event == null)
-            {
-                throw new ArgumentNullException("event");
-            }
+            if (@event == null) throw new ArgumentNullException("event");
+            if (_disposed) throw new ObjectDisposedException("Cannot dispatch and event when disposed! ")
+            ;
 
             Delegate @delegate;
             if (_applicationEventHandlers.TryGetValue(typeof(TEvent), out @delegate))

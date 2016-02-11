@@ -8,7 +8,7 @@ namespace Dibware.EventDispatcher.Core.Tests
     public class ApplicationEventPoolTests
     {
         [TestMethod]
-        public void TryAdd_WhenGivenEventWhenEmpty_ReturnsTrue()
+        public void GivenAnEventAndNoEventsExist_WhenTryingToAdd_ReturnsTrue()
         {
             // ARRANGE
             var event1 = new SimpleEvent1();
@@ -22,7 +22,7 @@ namespace Dibware.EventDispatcher.Core.Tests
         }
 
         [TestMethod]
-        public void TryAdd_WhenGivenEventOfDifferentTypeToAlreadyAdded_ReturnsTrue()
+        public void GivenAnEventOfDifferentTypeToAnyExisting_WhenTryingToAdd_ReturnsTrue()
         {
             // ARRANGE
             var event1 = new SimpleEvent1();
@@ -38,7 +38,7 @@ namespace Dibware.EventDispatcher.Core.Tests
         }
 
         [TestMethod]
-        public void TryAdd_WhenGivenEventOfSameTypeAsAlreadyAdded_ReturnsFalse()
+        public void GivenAnEventOfSameTypeAsAlreadyExists_WhenTryingToAdd_ReturnsFalse()
         {
             // ARRANGE
             var event1 = new SimpleEvent1();

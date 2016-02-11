@@ -6,7 +6,7 @@ namespace Dibware.EventDispatcher.Core.Contracts
     {
         bool TryAdd<TEvent>(TEvent @event) where TEvent : class, IApplicationEvent;
         bool TryGet<TEvent>(out TEvent @event) where TEvent : class, IApplicationEvent;
-        bool TryRemove<TEvent>(Type eventType) where TEvent : class, IApplicationEvent;
+        bool TryRemove(Type eventType);
         void Clear();
     }
 }

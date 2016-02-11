@@ -213,3 +213,5 @@ And this method will gather all of the handler types, iterating through them un-
 That is it for part one, we have created the `ApplicationEventDispatcher`. In part two we will look at implementing it in a Windows Forms application.
 
 Full code available here at [My EventDispatcher GitHub repository](https://github.com/dibley1973/EventDispatcher)
+
+[Part 2] (http://www.duanewingett.info/2016/02/11/CentralisedEventDispatcherInCPart2.aspx)

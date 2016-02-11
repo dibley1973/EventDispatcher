@@ -14,6 +14,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documents", "Documents", "{
 		BlogPost_Pt3.md = BlogPost_Pt3.md
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dibware.EventDispatcher.Core.Tests", "Dibware.EventDispatcher.Core.Tests\Dibware.EventDispatcher.Core.Tests.csproj", "{3AA40CE5-ABEC-47AE-ABB9-654F0A3237E5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -28,6 +30,10 @@ Global
 		{0D4A3874-1367-4F21-8A1C-7BC58EDC7179}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0D4A3874-1367-4F21-8A1C-7BC58EDC7179}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0D4A3874-1367-4F21-8A1C-7BC58EDC7179}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3AA40CE5-ABEC-47AE-ABB9-654F0A3237E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3AA40CE5-ABEC-47AE-ABB9-654F0A3237E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3AA40CE5-ABEC-47AE-ABB9-654F0A3237E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3AA40CE5-ABEC-47AE-ABB9-654F0A3237E5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

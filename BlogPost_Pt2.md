@@ -354,7 +354,7 @@ Now if we move to the `UnwireApplicationEventHandlers` method of each class we w
             
 ... for the 'MainFormController' class and...
             
-    ApplicationEventDispatcher.AddListener<ProcessExiting>(HandleProcessExiting);
+    ApplicationEventDispatcher.RemoveListener<ProcessExiting>(HandleProcessExiting);
 
 ... for the `MainProcess` class respectively.
  
@@ -363,6 +363,6 @@ Now if we run the application with a breakpoint in the `RemoveAllListeners` meth
     
 In part three we will look at pooling events commonly used events, as spawning lots of new event objects could lead to problems in a memory concious system.
 
-Full code available here at [My EventDispatcher GitHub repository](https://github.com/dibley1973/EventDispatcher)
+Full source code available here at [My EventDispatcher GitHub repository](https://github.com/dibley1973/EventDispatcher)
 
 [Part One](http://www.duanewingett.info/2016/02/10/CentralisedEventDispatcherInCPart1.aspx)

@@ -40,7 +40,7 @@ namespace Dibware.EventDispatcher.Core
             return eventFound;
         }
 
-        public bool TryRemove<TEvent>(Type eventType) where TEvent : class, IApplicationEvent
+        public bool TryRemove(Type eventType) //where TEvent : class, IApplicationEvent
         {
             if (!_applicationEvents.ContainsKey(eventType)) return false;
 

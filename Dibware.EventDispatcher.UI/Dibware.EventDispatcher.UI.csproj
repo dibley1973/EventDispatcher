@@ -49,6 +49,7 @@
     <Compile Include="Forms\Base\ApplicationEventHandlingFormBase.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Events\HelloWorldShouted.cs" />
     <Compile Include="Forms\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>

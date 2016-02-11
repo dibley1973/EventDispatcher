@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.ExitButton = new System.Windows.Forms.Button();
+            this.HelloWorldButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // ExitButton
@@ -41,11 +42,22 @@
             this.ExitButton.UseVisualStyleBackColor = true;
             this.ExitButton.Click += new System.EventHandler(this.ExitButton_Click);
             // 
+            // HelloWorldButton
+            // 
+            this.HelloWorldButton.Location = new System.Drawing.Point(197, 197);
+            this.HelloWorldButton.Name = "HelloWorldButton";
+            this.HelloWorldButton.Size = new System.Drawing.Size(75, 23);
+            this.HelloWorldButton.TabIndex = 1;
+            this.HelloWorldButton.Text = "Hello World!";
+            this.HelloWorldButton.UseVisualStyleBackColor = true;
+            this.HelloWorldButton.Click += new System.EventHandler(this.HelloWorldButton_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(284, 261);
+            this.Controls.Add(this.HelloWorldButton);
             this.Controls.Add(this.ExitButton);
             this.Name = "MainForm";
             this.Text = "MainForm";
@@ -56,5 +68,6 @@
         #endregion
 
         private System.Windows.Forms.Button ExitButton;
+        private System.Windows.Forms.Button HelloWorldButton;
     }
 }

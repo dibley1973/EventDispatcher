@@ -2,18 +2,22 @@
 using Dibware.EventDispatcher.UI.Base;
 using Dibware.EventDispatcher.UI.Events;
 using Dibware.EventDispatcher.UI.Forms;
-using System.Diagnostics;
+using System.Windows.Forms;
 
 namespace Dibware.EventDispatcher.UI.FormControllers
 {
     internal class MainFormController : ApplicationEventHandlingBase
     {
+        private readonly IApplicationEventPool _applicationEventPool;
         private MainForm _mainForm;
 
-        public MainFormController(IApplicationEventDispatcher applicationEventDispatcher)
+        public MainFormController(IApplicationEventDispatcher applicationEventDispatcher, 
+            IApplicationEventPool applicationEventPool)
             : base(applicationEventDispatcher)
         {
-            _mainForm = new MainForm(applicationEventDispatcher);
+
+            _applicationEventPool = applicationEventPool;
+            _mainForm = new MainForm(applicationEventDispatcher, applicationEventPool);
 
             WireUpApplicationEventHandlers();
         }
@@ -42,6 +46,11 @@ namespace Dibware.EventDispatcher.UI.FormControllers
             Disposed = true;
         }
 
+        private void HandleHelloWorld(HelloWorldShouted @event)
+        {
+            MessageBox.Show(@event.Message);
+        }
+
         private void HandleProcessStarted(ProcessStarted @event)
         {
             _mainForm.Show();
@@ -49,11 +58,13 @@ namespace Dibware.EventDispatcher.UI.FormControllers
 
         protected override void UnwireApplicationEventHandlers()
         {
+            ApplicationEventDispatcher.RemoveListener<HelloWorldShouted>(HandleHelloWorld);
             ApplicationEventDispatcher.RemoveListener<ProcessStarted>(HandleProcessStarted);
         }
 
         protected override sealed void WireUpApplicationEventHandlers()
         {
+            ApplicationEventDispatcher.AddListener<HelloWorldShouted>(HandleHelloWorld);
             ApplicationEventDispatcher.AddListener<ProcessStarted>(HandleProcessStarted);
         }
     }

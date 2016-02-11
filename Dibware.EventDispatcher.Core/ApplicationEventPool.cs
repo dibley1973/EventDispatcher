@@ -40,12 +40,22 @@ namespace Dibware.EventDispatcher.Core
             return eventFound;
         }
 
-        public bool TryRemove(Type eventType) //where TEvent : class, IApplicationEvent
+        public bool TryRemove<TEvent>(out TEvent @event) where TEvent : class, IApplicationEvent
         {
-            if (!_applicationEvents.ContainsKey(eventType)) return false;
+            throw new NotImplementedException();
 
-            _applicationEvents.Remove(eventType);
-            return true;
+            //Type eventType = typeof(TEvent);
+            //IApplicationEvent applicationEvent;
+            //@event = null;
+
+            //if (_applicationEvents.TryGetValue(eventType, out applicationEvent))
+            //{
+            //    @event = applicationEvent as TEvent;
+            //    _applicationEvents.Remove(eventType);
+            //}
+
+            //bool eventFound = (@event != null);
+            //return eventFound;
         }
 
         public void Clear()

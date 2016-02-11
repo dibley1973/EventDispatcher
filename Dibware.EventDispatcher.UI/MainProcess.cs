@@ -3,17 +3,20 @@ using Dibware.EventDispatcher.UI.Base;
 using Dibware.EventDispatcher.UI.Events;
 using Dibware.EventDispatcher.UI.FormControllers;
 using System.Windows.Forms;
+using Dibware.EventDispatcher.Core;
 
 namespace Dibware.EventDispatcher.UI
 {
     internal class MainProcess : ApplicationEventHandlingBase
     {
-        private MainFormController _mainFormController;
+        private readonly MainFormController _mainFormController;
+        private readonly IApplicationEventPool _applicationEventPool;
 
         public MainProcess(IApplicationEventDispatcher applicationEventDispatcher)
             : base(applicationEventDispatcher)
         {
-            _mainFormController = new MainFormController(applicationEventDispatcher);
+            _applicationEventPool = new ApplicationEventPool();
+            _mainFormController = new MainFormController(applicationEventDispatcher, _applicationEventPool);
         }
 
         ~MainProcess()
@@ -29,6 +32,7 @@ namespace Dibware.EventDispatcher.UI
             {
                 // Free other managed objects that implement IDisposable only
                 _mainFormController.Dispose();
+                _applicationEventPool.Clear();
                 UnwireApplicationEventHandlers();
             }
 

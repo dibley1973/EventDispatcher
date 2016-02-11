@@ -32,12 +32,11 @@ namespace Dibware.EventDispatcher.Core
             if (disposing)
             {
                 // free other managed objects that implement IDisposable only
+                RemoveAllListeners();
             }
 
             // release any unmanaged objects
             // set the object references to null
-            RemoveAllListeners();
-
             _applicationEventHandlers = null;
 
             _disposed = true;
@@ -79,8 +78,7 @@ namespace Dibware.EventDispatcher.Core
         public void Dispatch<TEvent>(TEvent @event) where TEvent : IApplicationEvent
         {
             if (@event == null) throw new ArgumentNullException("event");
-            if (_disposed) throw new ObjectDisposedException("Cannot dispatch and event when disposed! ")
-            ;
+            if (_disposed) throw new ObjectDisposedException("Cannot dispatch and event when disposed! ");
 
             Delegate @delegate;
             if (_applicationEventHandlers.TryGetValue(typeof(TEvent), out @delegate))

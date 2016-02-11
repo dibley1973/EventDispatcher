@@ -8,7 +8,7 @@ namespace Dibware.EventDispatcher.Core.Tests
     public class ApplicationEventPoolTests
     {
         [TestMethod]
-        public void GivenAnEventAndNoEventsExist_WhenTryingToAdd_ReturnsTrue()
+        public void GivenAnEventAndNoEventsExist_WhenTryingToAdd_TrueIsReturned()
         {
             // ARRANGE
             var event1 = new SimpleEvent1();
@@ -22,7 +22,7 @@ namespace Dibware.EventDispatcher.Core.Tests
         }
 
         [TestMethod]
-        public void GivenAnEventOfDifferentTypeToAnyExisting_WhenTryingToAdd_ReturnsTrue()
+        public void GivenAnEventOfDifferentTypeToAnyExisting_WhenTryingToAdd_TrueIsReturned()
         {
             // ARRANGE
             var event1 = new SimpleEvent1();
@@ -38,7 +38,7 @@ namespace Dibware.EventDispatcher.Core.Tests
         }
 
         [TestMethod]
-        public void GivenAnEventOfSameTypeAsAlreadyExists_WhenTryingToAdd_ReturnsFalse()
+        public void GivenAnEventOfSameTypeAsAlreadyExists_WhenTryingToAdd_FalseIsReturned()
         {
             // ARRANGE
             var event1 = new SimpleEvent1();
@@ -54,7 +54,7 @@ namespace Dibware.EventDispatcher.Core.Tests
         }
 
         [TestMethod]
-        public void TryGet_WhenNoEventsAdded_ReturnsFalse()
+        public void GivenNoEventsHaveBeenAdded_WhenTryingToGetEvent_FalseIsReturned()
         {
             // ARRANGE
             SimpleEvent1 event1;
@@ -68,10 +68,9 @@ namespace Dibware.EventDispatcher.Core.Tests
         }
 
         [TestMethod]
-        public void TryGet_WhenNoEventsAdded_OutputsNull()
+        public void GivenNoEventsHaveBeenAdded_WhenTryingToGetEvent_OutputIsNull()
         {
             // ARRANGE
-            SimpleEvent1 event1;
             SimpleEvent1 actual;
             var eventPool = new ApplicationEventPool();
 
@@ -83,7 +82,7 @@ namespace Dibware.EventDispatcher.Core.Tests
         }
 
         [TestMethod]
-        public void TryGet_WhenGettingDifferentEventTypeThanWhatWasAdded_ReturnsFalse()
+        public void GivenADifferentEventFromWhatHasBeenAdded_WhenTryingToGet_FalseIsReturned()
         {
             // ARRANGE
             var event1 = new SimpleEvent1();
@@ -99,7 +98,7 @@ namespace Dibware.EventDispatcher.Core.Tests
         }
 
         [TestMethod]
-        public void TryGet_WhenGettingDifferentEventTypeThanWhatWasAdded_OutputsNull()
+        public void GivenADifferentEventFromWhatHasBeenAdded_WhenTryingToGet_OutputIsNull()
         {
             // ARRANGE
             var event1 = new SimpleEvent1();
@@ -115,7 +114,7 @@ namespace Dibware.EventDispatcher.Core.Tests
         }
 
         [TestMethod]
-        public void TryGet_WhenGettingSameEventTypeAsAdded_ReturnsTrue()
+        public void GivenSameEventTypeAsAdded_WhenTryingToGet_TrueIsReturned()
         {
             // ARRANGE
             var event1 = new SimpleEvent1();
@@ -131,7 +130,7 @@ namespace Dibware.EventDispatcher.Core.Tests
         }
 
         [TestMethod]
-        public void TryGet_WhenGettingSameEventTypeAsAdded_OutputsInstance()
+        public void GivenSameEventTypeAsAdded_WhenTryingToGet_OutputIsInstanceOfEvent()
         {
             // ARRANGE
             var event1 = new SimpleEvent1();
@@ -147,7 +146,7 @@ namespace Dibware.EventDispatcher.Core.Tests
         }
 
         [TestMethod]
-        public void TryGet_WhenGettingSameEventTypeAsAdded_OutputsSameInstance()
+        public void GivenSameEventTypeAsAdded_WhenTryingToGet_OutputIsSameInstance()
         {
             // ARRANGE
             var event1 = new SimpleEvent1();
@@ -163,35 +162,66 @@ namespace Dibware.EventDispatcher.Core.Tests
         }
 
         [TestMethod]
-        public void TryRemove_WhenCalledForTypeAlreadyAdded_ReturnsTrue()
+        public void GivenSameEventTypeAsAdded_WhenTryingToRemove_TrueIsReturned()
         {
             // ARRANGE
             var event1 = new SimpleEvent1();
-            Type event1Type = event1.GetType();
             var eventPool = new ApplicationEventPool();
             eventPool.TryAdd(event1);
 
             // ACT
-            var actual = eventPool.TryRemove(event1Type);
+            var actual = eventPool.TryRemove(out event1);
 
             // ASSERT
             Assert.IsTrue(actual);
         }
 
         [TestMethod]
-        public void TryRemove_WhenCalledForTypeNotAdded_ReturnsFalse()
+        public void GivenSameEventTypeAsAdded_WhenTryingToRemove_OutputIssameInstanceAsImput()
         {
             // ARRANGE
             var event1 = new SimpleEvent1();
-            Type event1Type = event1.GetType();
+            SimpleEvent1 event2;
             var eventPool = new ApplicationEventPool();
             eventPool.TryAdd(event1);
 
             // ACT
-            var actual = eventPool.TryRemove(typeof(SimpleEvent2));
+            var actual = eventPool.TryRemove(out event2);
+
+            // ASSERT
+            Assert.AreSame(event1, event2);
+        }
+
+        [TestMethod]
+        public void GivenADifferentEventFromWhatHasBeenAdded_WhenTryingToRemove_FalseIsReturned()
+        {
+            // ARRANGE
+            var event1 = new SimpleEvent1();
+            SimpleEvent2 event2;
+            var eventPool = new ApplicationEventPool();
+            eventPool.TryAdd(event1);
+
+            // ACT
+            var actual = eventPool.TryRemove(out event2);
 
             // ASSERT
             Assert.IsFalse(actual);
+        }
+
+        [TestMethod]
+        public void GivenADifferentEventFromWhatHasBeenAdded_WhenTryingToRemove_OutputIsNull()
+        {
+            // ARRANGE
+            var event1 = new SimpleEvent1();
+            SimpleEvent2 event2;
+            var eventPool = new ApplicationEventPool();
+            eventPool.TryAdd(event1);
+
+            // ACT
+            var actual = eventPool.TryRemove(out event2);
+
+            // ASSERT
+            Assert.IsNull(event2);
         }
     }
 }

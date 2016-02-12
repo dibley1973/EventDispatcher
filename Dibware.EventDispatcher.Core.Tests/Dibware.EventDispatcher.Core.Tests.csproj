@@ -50,11 +50,12 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="ApplicationEventPoolTests.cs" />
+    <Compile Include="Tests\ApplicationEventPoolTests.cs" />
+    <Compile Include="Fakes\Events\EventWithSimpleData.cs" />
     <Compile Include="Fakes\Events\SimpleEvent2.cs" />
     <Compile Include="Fakes\Events\SimpleEvent1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ApplicationEventDispatcherTests.cs" />
+    <Compile Include="Tests\ApplicationEventDispatcherTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Dibware.EventDispatcher.Core\Dibware.EventDispatcher.Core.csproj">

@@ -1,8 +1,7 @@
 ﻿using Dibware.EventDispatcher.Core.Tests.Fakes.Events;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
 
-namespace Dibware.EventDispatcher.Core.Tests
+namespace Dibware.EventDispatcher.Core.Tests.Tests
 {
     [TestClass]
     public class ApplicationEventPoolTests
@@ -52,6 +51,39 @@ namespace Dibware.EventDispatcher.Core.Tests
             // ASSERT
             Assert.IsFalse(actual);
         }
+
+        [TestMethod]
+        public void GivenAnEventOfSameTypeAndSameDataTypeAsAlreadyExists_WhenTryingToAdd_FalseIsReturned()
+        {
+            // ARRANGE
+            var event1 = new EventWithSimpleData("Hello");
+            var event2 = new EventWithSimpleData("Hello");
+            var eventPool = new ApplicationEventPool();
+            eventPool.TryAdd(event1);
+
+            // ACT
+            var actual = eventPool.TryAdd(event2);
+
+            // ASSERT
+            Assert.IsFalse(actual);
+        }
+
+        [TestMethod]
+        public void GivenAnEventOfSameTypeButDifferentDataTypeAsAlreadyExists_WhenTryingToAdd_TrueIsReturned()
+        {
+            // ARRANGE
+            var event1 = new EventWithSimpleData("Hello");
+            var event2 = new EventWithSimpleData("world!");
+            var eventPool = new ApplicationEventPool();
+            eventPool.TryAdd(event1);
+
+            // ACT
+            var actual = eventPool.TryAdd(event2);
+
+            // ASSERT
+            Assert.IsTrue(actual);
+        }
+
 
         [TestMethod]
         public void GivenNoEventsHaveBeenAdded_WhenTryingToGetEvent_FalseIsReturned()

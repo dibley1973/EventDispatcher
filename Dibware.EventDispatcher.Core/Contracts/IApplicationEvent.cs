@@ -1,4 +1,8 @@
-﻿namespace Dibware.EventDispatcher.Core.Contracts
+﻿using System;
+using System.Collections.Generic;
+
+namespace Dibware.EventDispatcher.Core.Contracts
 {
-    public interface IApplicationEvent { }
+    public interface IApplicationEvent //: IEqualityComparer<IApplicationEvent>, IEquatable<IApplicationEvent>
+    { }
 }

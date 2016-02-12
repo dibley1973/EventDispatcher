@@ -7,6 +7,7 @@ namespace Dibware.EventDispatcher.Core
     public class ApplicationEventPool : IApplicationEventPool
     {
         private readonly Dictionary<Type, IApplicationEvent> _applicationEvents;
+        //private readonly HashSet<IApplicationEvent> _applicationEvents2;
 
         public ApplicationEventPool()
         {
@@ -21,6 +22,7 @@ namespace Dibware.EventDispatcher.Core
             if (_applicationEvents.ContainsKey(eventType)) return false;
 
             _applicationEvents.Add(eventType, @event);
+            //_applicationEvents2.Add(@event);
 
             return true;
         }

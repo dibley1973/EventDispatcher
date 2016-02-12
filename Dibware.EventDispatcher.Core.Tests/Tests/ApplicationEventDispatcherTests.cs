@@ -1,9 +1,9 @@
-﻿using Dibware.EventDispatcher.Core.Tests.Fakes.Events;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
+﻿using System;
 using Dibware.EventDispatcher.Core.Contracts;
+using Dibware.EventDispatcher.Core.Tests.Fakes.Events;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Dibware.EventDispatcher.Core.Tests
+namespace Dibware.EventDispatcher.Core.Tests.Tests
 {
     [TestClass]
     public class ApplicationEventDispatcherTests

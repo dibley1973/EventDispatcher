@@ -45,11 +45,24 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Base\ApplicationEventHandlingBase.cs" />
+    <Compile Include="Extensions\SynchronizeInvokeExtensions.cs" />
     <Compile Include="FormControllers\MainFormController.cs" />
     <Compile Include="Forms\Base\ApplicationEventHandlingFormBase.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Events\HelloWorldShouted.cs" />
+    <Compile Include="Forms\FormA.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FormA.Designer.cs">
+      <DependentUpon>FormA.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FormB.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FormB.Designer.cs">
+      <DependentUpon>FormB.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -57,10 +70,17 @@
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Events\ProcessExiting.cs" />
+    <Compile Include="Events\MessageEvent.cs" />
     <Compile Include="MainProcess.cs" />
     <Compile Include="Events\ProcessStarted.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Forms\FormA.resx">
+      <DependentUpon>FormA.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FormB.resx">
+      <DependentUpon>FormB.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>

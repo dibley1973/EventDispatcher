@@ -30,6 +30,7 @@
         {
             this.ExitButton = new System.Windows.Forms.Button();
             this.HelloWorldButton = new System.Windows.Forms.Button();
+            this.MessagingButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // ExitButton
@@ -52,11 +53,22 @@
             this.HelloWorldButton.UseVisualStyleBackColor = true;
             this.HelloWorldButton.Click += new System.EventHandler(this.HelloWorldButton_Click);
             // 
+            // MessagingButton
+            // 
+            this.MessagingButton.Location = new System.Drawing.Point(197, 168);
+            this.MessagingButton.Name = "MessagingButton";
+            this.MessagingButton.Size = new System.Drawing.Size(75, 23);
+            this.MessagingButton.TabIndex = 2;
+            this.MessagingButton.Text = "Messaging";
+            this.MessagingButton.UseVisualStyleBackColor = true;
+            this.MessagingButton.Click += new System.EventHandler(this.MessagingButton_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(284, 261);
+            this.Controls.Add(this.MessagingButton);
             this.Controls.Add(this.HelloWorldButton);
             this.Controls.Add(this.ExitButton);
             this.Name = "MainForm";
@@ -69,5 +81,6 @@
 
         private System.Windows.Forms.Button ExitButton;
         private System.Windows.Forms.Button HelloWorldButton;
+        private System.Windows.Forms.Button MessagingButton;
     }
 }

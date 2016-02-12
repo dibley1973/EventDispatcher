@@ -1,7 +1,7 @@
 ﻿using Dibware.EventDispatcher.Core.Contracts;
+using Dibware.EventDispatcher.UI.Events;
 using Dibware.EventDispatcher.UI.Forms.Base;
 using System;
-using Dibware.EventDispatcher.UI.Events;
 
 namespace Dibware.EventDispatcher.UI.Forms
 {
@@ -9,7 +9,7 @@ namespace Dibware.EventDispatcher.UI.Forms
     {
         private readonly IApplicationEventPool _applicationEventPool;
 
-        public MainForm(IApplicationEventDispatcher applicationEventDispatcher, 
+        public MainForm(IApplicationEventDispatcher applicationEventDispatcher,
             IApplicationEventPool applicationEventPool)
             : base(applicationEventDispatcher)
         {
@@ -35,6 +35,15 @@ namespace Dibware.EventDispatcher.UI.Forms
             }
 
             ApplicationEventDispatcher.Dispatch(@event);
+        }
+
+        private void MessagingButton_Click(object sender, EventArgs e)
+        {
+            var formA = new FormA(ApplicationEventDispatcher, _applicationEventPool);
+            var formB = new FormB(ApplicationEventDispatcher, _applicationEventPool);
+
+            formA.Show();
+            formB.Show();
         }
     }
 }

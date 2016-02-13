@@ -22,5 +22,6 @@ namespace Dibware.EventDispatcher.UI.Events
         {
             get { return _text; }
         }
+
     }
 }

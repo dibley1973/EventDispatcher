@@ -199,18 +199,20 @@ The next test will try to add two events of the same type but with different dat
         Assert.IsTrue(actual);
     }
 
-Now we can look to discover and implement a solution to do this as we have a tests that will corroborate if teh new solution works. One option is to create a unique HashCode based upon a combination of the type of the event combined with  the data the event is carrying.
+Now we can look to discover and implement a solution to do this as we have a tests that will corroborate if the new solution works. One option is to create a unique HashCode based upon a combination of the type of the event combined with the data the event is carrying and use this as the key for the dictionary. Lets follow this through and see how it pans out. First we need a new interface which will demand that any objects implementing it will have a HashCode property. We name this interface `IHasHashCode` (sounds a bit too much like IHasCheesburger for my liking but I'll live with it). The interface will have a single member of type `int` which will be a getter property and the member will be named "Hashcode".
 
-Lets change the interface which our events use to force implementation of a couple of new members. We are going to make our `IApplicationEvent` interface implement the `IEqualityComparer<IApplicationEvent>` interface like so.
+    public interface IHasHashCode
+    {
+        int HashCode { get; }
+    }
 
-    public interface IApplicationEvent : IEqualityComparer<IApplicationEvent> {}
+As we may not want all events to be "poolable", so not all events will need the "HashCode" property. so lets specialise an mew event interface and name it `IPoolableApplicationEvent`. This event will implement both `IApplicationEvent` and `IHasHashCode`.
 
-The `IEqualityComparer<T>` interface will bring along the `Equals(T, T)` and `GetHashCode(obj)` members
+    public interface IPoolableApplicationEvent : IApplicationEvent, IHasHashCode { }
+    
+So now all events need can be pooled must implement `IPoolableApplicationEvent` so we can guarantee that they implement a "HashCode" property with a public getter.
 
-public interface IEqualityComparer<T> {
-    bool Equals(T x, T y);
-    int GetHashCode(T obj);
-}
+
    
 T.B.C....  
  

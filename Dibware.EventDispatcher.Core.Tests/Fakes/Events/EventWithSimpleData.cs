@@ -2,13 +2,15 @@
 
 namespace Dibware.EventDispatcher.Core.Tests.Fakes.Events
 {
-    public class EventWithSimpleData : IApplicationEvent
+    public class EventWithSimpleData : IPoolableApplicationEvent
     {
         private readonly string _message;
+        private readonly int _key;
 
         public EventWithSimpleData(string message)
         {
             _message = message;
+            _key = GetHashCode();
         }
 
         public string Message
@@ -16,7 +18,7 @@ namespace Dibware.EventDispatcher.Core.Tests.Fakes.Events
             get { return _message; }
         }
 
-        public override int GetHashCode()
+        private new int GetHashCode()
         {
             // Ref: http://stackoverflow.com/a/263416/254215
             unchecked // Overflow is fine, just wrap
@@ -48,5 +50,10 @@ namespace Dibware.EventDispatcher.Core.Tests.Fakes.Events
         //{
         //    throw new System.NotImplementedException();
         //}
+
+        public int Key
+        {
+            get { return _key; }
+        }
     }
 }

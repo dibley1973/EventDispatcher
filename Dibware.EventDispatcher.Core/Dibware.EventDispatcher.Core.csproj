@@ -41,6 +41,7 @@
     <Compile Include="Contracts\IApplicationEvent.cs" />
     <Compile Include="Contracts\IApplicationEventDispatcher.cs" />
     <Compile Include="Contracts\IApplicationEventPool.cs" />
+    <Compile Include="Contracts\IPoolableApplicationEvent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

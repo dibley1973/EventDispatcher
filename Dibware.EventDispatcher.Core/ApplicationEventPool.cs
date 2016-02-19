@@ -6,34 +6,30 @@ namespace Dibware.EventDispatcher.Core
 {
     public class ApplicationEventPool : IApplicationEventPool
     {
-        private readonly Dictionary<Type, IApplicationEvent> _applicationEvents;
-        //private readonly HashSet<IApplicationEvent> _applicationEvents2;
+        private readonly Dictionary<int, IPoolableApplicationEvent> _applicationEvents;
 
         public ApplicationEventPool()
         {
-            _applicationEvents = new Dictionary<Type, IApplicationEvent>();
+            _applicationEvents = new Dictionary<int, IPoolableApplicationEvent>();
         }
 
-        public bool TryAdd<TEvent>(TEvent @event) where TEvent : class, IApplicationEvent
+        public bool TryAdd<TEvent>(TEvent @event) where TEvent : class, IPoolableApplicationEvent
         {
             if (@event == null) throw new ArgumentNullException("event");
 
-            Type eventType = typeof(TEvent);
-            if (_applicationEvents.ContainsKey(eventType)) return false;
+            if (_applicationEvents.ContainsKey(@event.HashCode)) return false;
 
-            _applicationEvents.Add(eventType, @event);
-            //_applicationEvents2.Add(@event);
+            _applicationEvents.Add(@event.HashCode, @event);
 
             return true;
         }
 
-        public bool TryGet<TEvent>(out TEvent @event) where TEvent : class, IApplicationEvent
+        public bool TryGet<TEvent>(int hashCode, out TEvent @event) where TEvent : class, IPoolableApplicationEvent
         {
-            Type eventType = typeof(TEvent);
-            IApplicationEvent applicationEvent;
+            IPoolableApplicationEvent applicationEvent;
             @event = null;
 
-            if (_applicationEvents.TryGetValue(eventType, out applicationEvent))
+            if (_applicationEvents.TryGetValue(hashCode, out applicationEvent))
             {
                 @event = applicationEvent as TEvent;
             }
@@ -42,7 +38,7 @@ namespace Dibware.EventDispatcher.Core
             return eventFound;
         }
 
-        public bool TryRemove<TEvent>(out TEvent @event) where TEvent : class, IApplicationEvent
+        public bool TryRemove<TEvent>(out TEvent @event) where TEvent : class, IPoolableApplicationEvent
         {
             throw new NotImplementedException();
 

@@ -27,12 +27,12 @@ namespace Dibware.EventDispatcher.UI.Forms
         {
             HelloWorldShouted @event;
 
-            var eventAlreadyCached = _applicationEventPool.TryGet(out @event);
-            if (!eventAlreadyCached)
-            {
+            //var eventAlreadyCached = _applicationEventPool.TryGet(@event.HashCode, out @event);
+            //if (!eventAlreadyCached)
+            //{
                 @event = new HelloWorldShouted();
-                _applicationEventPool.TryAdd(@event);
-            }
+            //    _applicationEventPool.TryAdd(@event. @event);
+            //}
 
             ApplicationEventDispatcher.Dispatch(@event);
         }

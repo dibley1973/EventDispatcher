@@ -4,6 +4,10 @@ This is part four of a series of posts where I am going to share with you the so
 In [part one](http://www.duanewingett.info/2016/02/10/CentralisedEventDispatcherInCPart1.aspx) we created the event dispatcher class library.
 In [part two](http://www.duanewingett.info/2016/02/11/CentralisedEventDispatcherInCPart2.aspx) we consumed it from a windows forms application. 
 In [part three](http://www.duanewingett.info/2016/02/11/CentralisedEventDispatcherInCPart3.aspx) we look at adding pooling for commonly raised events and implement an 'ApplicationEventPool'.
+In this part we will were going to be looking at applying a restriction on what events can be safely pooled. However further investigation following feedback on the articles has indicated that there may be little to gain from pooling the events, so until a better reason presents itself to continue investigating pooling I am going to bring this series to a close here.
+
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 In this part we will look at applying a restriction on what events can be safely pooled.
 
 ## Assumptions
@@ -210,9 +214,92 @@ As we may not want all events to be "poolable", so not all events will need the 
 
     public interface IPoolableApplicationEvent : IApplicationEvent, IHasHashCode { }
     
-So now all events need can be pooled must implement `IPoolableApplicationEvent` so we can guarantee that they implement a "HashCode" property with a public getter.
+So now all events need can be pooled must implement `IPoolableApplicationEvent` so we can guarantee that they implement a "HashCode" property with a public getter. As the data is mutable and we are intending to create the "HashCode" from a combination of the `Type` and the data it carries we can call a function `GetHashCode` that creates the hash code during construction and cash the value in a private field. So here is the function.
 
+    private new int GetHashCode()
+    {
+        // Ref: http://stackoverflow.com/a/263416/254215
+        unchecked // Overflow is fine, just wrap
+        {
+            int hash = 17;
+            hash = hash * 23 + GetType().ToString().GetHashCode();
+            hash = hash * 23 + Message.GetHashCode();
+            return hash;
+        }
+    }
 
-   
+This is a basic implementation found on StackOverflow, but you can investigate which "HashCode" algorithm best suits your needs and implement that. We are just intending to reduce the risk of likely clashes. The next task is to call this function in the constructor and cache its result and allow that to be returned by the "HashCode" property.
+
+    public EventWithSimpleData(string message)
+    {
+        _message = message;
+        _hashCode = GetHashCode();
+    }
+    
+    public int HashCode
+    {
+        get { return _hashCode; }
+    }
+
+The next task is to change our `IApplicationEventPool` interface to only allow objects implementing `IPoolableApplicationEvent` to be pooled.
+
+    public interface IApplicationEventPool
+    {
+        bool TryAdd<TEvent>(TEvent @event) where TEvent : class, IPoolableApplicationEvent;
+        bool TryGet<TEvent>(int hashCode, out TEvent @event) where TEvent : class, IPoolableApplicationEvent;
+        bool TryRemove<TEvent>(out TEvent @event) where TEvent : class, IPoolableApplicationEvent;
+        void Clear();
+    }
+    
+We now need to modify our `ApplicationEventPool` to implement the revised `IApplicationEventPool` interface and to use the "HashCode" property instead of the `Type` and we are ready to re run our tests.
+
+    public class ApplicationEventPool : IApplicationEventPool
+    {
+        private readonly Dictionary<int, IPoolableApplicationEvent> _applicationEvents;
+
+        public ApplicationEventPool()
+        {
+            _applicationEvents = new Dictionary<int, IPoolableApplicationEvent>();
+        }
+
+        public bool TryAdd<TEvent>(TEvent @event) where TEvent : class, IPoolableApplicationEvent
+        {
+            if (@event == null) throw new ArgumentNullException("event");
+
+            if (_applicationEvents.ContainsKey(@event.HashCode)) return false;
+
+            _applicationEvents.Add(@event.HashCode, @event);
+
+            return true;
+        }
+
+        public bool TryGet<TEvent>(int hashCode, out TEvent @event) where TEvent : class, IPoolableApplicationEvent
+        {
+            IPoolableApplicationEvent applicationEvent;
+            @event = null;
+
+            if (_applicationEvents.TryGetValue(hashCode, out applicationEvent))
+            {
+                @event = applicationEvent as TEvent;
+            }
+
+            bool eventFound = (@event != null);
+            return eventFound;
+        }
+
+        public bool TryRemove<TEvent>(out TEvent @event) where TEvent : class, IPoolableApplicationEvent
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Clear()
+        {
+            _applicationEvents.Clear();
+        }
+    }
+
+Any events we are intending to pool must now be modified to implement `IPoolableApplicationEvent`
+    
+This should now allow our tests to pass.
 T.B.C....  
  

@@ -89,11 +89,11 @@ namespace Dibware.EventDispatcher.Core.Tests.Tests
         public void GivenNoEventsHaveBeenAdded_WhenTryingToGetEvent_FalseIsReturned()
         {
             // ARRANGE
-            SimpleEvent1 event1;
+            var event1 = new SimpleEvent1();
             var eventPool = new ApplicationEventPool();
 
             // ACT
-            var actual = eventPool.TryGet(out event1);
+            var actual = eventPool.TryGet(event1.HashCode, out event1);
 
             // ASSERT
             Assert.IsFalse(actual);
@@ -103,11 +103,11 @@ namespace Dibware.EventDispatcher.Core.Tests.Tests
         public void GivenNoEventsHaveBeenAdded_WhenTryingToGetEvent_OutputIsNull()
         {
             // ARRANGE
-            SimpleEvent1 actual;
+            var actual = new SimpleEvent1();
             var eventPool = new ApplicationEventPool();
 
             // ACT
-            eventPool.TryGet(out actual);
+            eventPool.TryGet(actual.HashCode, out actual);
 
             // ASSERT
             Assert.IsNull(actual);
@@ -118,12 +118,12 @@ namespace Dibware.EventDispatcher.Core.Tests.Tests
         {
             // ARRANGE
             var event1 = new SimpleEvent1();
-            SimpleEvent2 event2;
+            var event2 = new SimpleEvent2();
             var eventPool = new ApplicationEventPool();
             eventPool.TryAdd(event1);
 
             // ACT
-            var actual = eventPool.TryGet(out event2);
+            var actual = eventPool.TryGet(event2.HashCode, out event2);
 
             // ASSERT
             Assert.IsFalse(actual);
@@ -134,12 +134,12 @@ namespace Dibware.EventDispatcher.Core.Tests.Tests
         {
             // ARRANGE
             var event1 = new SimpleEvent1();
-            SimpleEvent2 actual;
+            var actual = new SimpleEvent2();
             var eventPool = new ApplicationEventPool();
             eventPool.TryAdd(event1);
 
             // ACT
-            eventPool.TryGet(out actual);
+            eventPool.TryGet(actual.HashCode, out actual);
 
             // ASSERT
             Assert.IsNull(actual);
@@ -150,12 +150,12 @@ namespace Dibware.EventDispatcher.Core.Tests.Tests
         {
             // ARRANGE
             var event1 = new SimpleEvent1();
-            SimpleEvent1 event2;
+            var event2 = new SimpleEvent1();
             var eventPool = new ApplicationEventPool();
             eventPool.TryAdd(event1);
 
             // ACT
-            var actual = eventPool.TryGet(out event2);
+            var actual = eventPool.TryGet(event2.HashCode, out event2);
 
             // ASSERT
             Assert.IsTrue(actual);
@@ -166,12 +166,12 @@ namespace Dibware.EventDispatcher.Core.Tests.Tests
         {
             // ARRANGE
             var event1 = new SimpleEvent1();
-            SimpleEvent1 actual;
+            var actual =  new SimpleEvent1();
             var eventPool = new ApplicationEventPool();
             eventPool.TryAdd(event1);
 
             // ACT
-            eventPool.TryGet(out actual);
+            eventPool.TryGet(actual.HashCode, out actual);
 
             // ASSERT
             Assert.IsNotNull(actual);
@@ -182,12 +182,12 @@ namespace Dibware.EventDispatcher.Core.Tests.Tests
         {
             // ARRANGE
             var event1 = new SimpleEvent1();
-            SimpleEvent1 actual;
+            var actual = new SimpleEvent1();
             var eventPool = new ApplicationEventPool();
             eventPool.TryAdd(event1);
 
             // ACT
-            eventPool.TryGet(out actual);
+            eventPool.TryGet(actual.HashCode, out actual);
 
             // ASSERT
             Assert.AreSame(actual, event1);

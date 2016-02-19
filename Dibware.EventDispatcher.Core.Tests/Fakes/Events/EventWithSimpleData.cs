@@ -2,7 +2,7 @@
 
 namespace Dibware.EventDispatcher.Core.Tests.Fakes.Events
 {
-    public class EventWithSimpleData : IPoolableApplicationEvent
+    public class EventWithSimpleData : IApplicationEvent
     {
         private readonly string _message;
         private readonly int _hashCode;

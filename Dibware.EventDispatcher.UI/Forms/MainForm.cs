@@ -7,13 +7,9 @@ namespace Dibware.EventDispatcher.UI.Forms
 {
     public partial class MainForm : ApplicationEventHandlingFormBase
     {
-        private readonly IApplicationEventPool _applicationEventPool;
-
-        public MainForm(IApplicationEventDispatcher applicationEventDispatcher,
-            IApplicationEventPool applicationEventPool)
+        public MainForm(IApplicationEventDispatcher applicationEventDispatcher)
             : base(applicationEventDispatcher)
         {
-            _applicationEventPool = applicationEventPool;
             InitializeComponent();
         }
 
@@ -25,22 +21,15 @@ namespace Dibware.EventDispatcher.UI.Forms
 
         private void HelloWorldButton_Click(object sender, EventArgs e)
         {
-            HelloWorldShouted @event;
-
-            //var eventAlreadyCached = _applicationEventPool.TryGet(@event.HashCode, out @event);
-            //if (!eventAlreadyCached)
-            //{
-                @event = new HelloWorldShouted();
-            //    _applicationEventPool.TryAdd(@event. @event);
-            //}
+            HelloWorldShouted @event = new HelloWorldShouted();
 
             ApplicationEventDispatcher.Dispatch(@event);
         }
 
         private void MessagingButton_Click(object sender, EventArgs e)
         {
-            var formA = new FormA(ApplicationEventDispatcher, _applicationEventPool);
-            var formB = new FormB(ApplicationEventDispatcher, _applicationEventPool);
+            var formA = new FormA(ApplicationEventDispatcher);
+            var formB = new FormB(ApplicationEventDispatcher);
 
             formA.Show();
             formB.Show();

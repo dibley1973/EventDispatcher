@@ -8,16 +8,12 @@ namespace Dibware.EventDispatcher.UI.FormControllers
 {
     internal class MainFormController : ApplicationEventHandlingBase
     {
-        private readonly IApplicationEventPool _applicationEventPool;
         private MainForm _mainForm;
 
-        public MainFormController(IApplicationEventDispatcher applicationEventDispatcher, 
-            IApplicationEventPool applicationEventPool)
+        public MainFormController(IApplicationEventDispatcher applicationEventDispatcher)
             : base(applicationEventDispatcher)
         {
-
-            _applicationEventPool = applicationEventPool;
-            _mainForm = new MainForm(applicationEventDispatcher, applicationEventPool);
+            _mainForm = new MainForm(applicationEventDispatcher);
 
             WireUpApplicationEventHandlers();
         }

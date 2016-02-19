@@ -50,7 +50,6 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="Tests\ApplicationEventPoolTests.cs" />
     <Compile Include="Fakes\Events\EventWithSimpleData.cs" />
     <Compile Include="Fakes\Events\SimpleEvent2.cs" />
     <Compile Include="Fakes\Events\SimpleEvent1.cs" />

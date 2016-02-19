@@ -37,12 +37,9 @@
   <ItemGroup>
     <Compile Include="ApplicationEventDispatcher.cs" />
     <Compile Include="Contracts\ApplicationEventHandlerDelegate.cs" />
-    <Compile Include="ApplicationEventPool.cs" />
     <Compile Include="Contracts\IApplicationEvent.cs" />
     <Compile Include="Contracts\IApplicationEventDispatcher.cs" />
-    <Compile Include="Contracts\IApplicationEventPool.cs" />
     <Compile Include="Contracts\IHasHashCode.cs" />
-    <Compile Include="Contracts\IPoolableApplicationEvent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

@@ -7,16 +7,12 @@ namespace Dibware.EventDispatcher.UI.Forms
 {
     public partial class FormA : ApplicationEventHandlingFormBase
     {
-        private readonly IApplicationEventPool _applicationEventPool;
-
         public FormA(
-            IApplicationEventDispatcher applicationEventDispatcher,
-            IApplicationEventPool applicationEventPool)
+            IApplicationEventDispatcher applicationEventDispatcher)
             : base(applicationEventDispatcher)
         {
             InitializeComponent();
 
-            _applicationEventPool = applicationEventPool;
             WireUpApplicationEventHandlers();
         }
 

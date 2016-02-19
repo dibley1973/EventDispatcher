@@ -2,7 +2,7 @@
 
 namespace Dibware.EventDispatcher.UI.Events
 {
-    internal class HelloWorldShouted : IPoolableApplicationEvent
+    internal class HelloWorldShouted : IApplicationEvent
     {
         private readonly string _message;
         private readonly int _hashCode;

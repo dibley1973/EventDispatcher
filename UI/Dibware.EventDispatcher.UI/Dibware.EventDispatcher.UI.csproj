@@ -34,14 +34,8 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Deployment" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Base\ApplicationEventHandlingBase.cs" />
@@ -107,12 +101,11 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Dibware.EventDispatcher.Core\Dibware.EventDispatcher.Core.csproj">
+    <ProjectReference Include="..\..\DLL\Dibware.EventDispatcher.Core\Dibware.EventDispatcher.Core.csproj">
       <Project>{0d4a3874-1367-4f21-8a1c-7bc58edc7179}</Project>
       <Name>Dibware.EventDispatcher.Core</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

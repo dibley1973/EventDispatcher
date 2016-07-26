@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Dibware.EventDispatcher.UI")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("Dibware.EventDispatcher.Core.Tests")]
+[assembly: AssemblyDescription("Unit Tests for Dibware.EventDispatcher.Core")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Dibware.EventDispatcher.UI")]
-[assembly: AssemblyCopyright("Copyright ©  2016")]
+[assembly: AssemblyCompany("Dibware")]
+[assembly: AssemblyProduct("Dibware.EventDispatcher.Core.Tests")]
+[assembly: AssemblyCopyright("Copyright ©  2016 Dibware")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("c9af6654-7f38-4f84-aa71-9ba78084cebe")]
+[assembly: Guid("d714665a-7579-4569-9a34-e6d960dddb2b")]
 
 // Version information for an assembly consists of the following four values:
 //
@@ -32,5 +32,5 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("0.2.*")]
-[assembly: AssemblyFileVersion("0.2.1")]
+[assembly: AssemblyVersion("1.0.0.*")]
+[assembly: AssemblyFileVersion("1.0.0")]

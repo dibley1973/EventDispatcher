@@ -13,6 +13,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documents", "Documents", "{
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NuGetPackage", "NuGetPackage", "{E2906044-4BD2-4FAA-AF98-6F728FB2AC32}"
+	ProjectSection(SolutionItems) = preProject
+		NuGetPackage\Dibware.EventDispatcher.Core.1.0.0.nupkg = NuGetPackage\Dibware.EventDispatcher.Core.1.0.0.nupkg
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{71A0CF5B-A473-4B5B-8FFA-4AC3AC791D25}"
 EndProject
@@ -25,6 +28,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dibware.EventDispatcher.UI", "UI\Dibware.EventDispatcher.UI\Dibware.EventDispatcher.UI.csproj", "{63B0082B-D59C-4D0A-A3B5-D24CAFD8C4D0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dibware.EventDispatcher.Core.Tests", "Tests\Dibware.EventDispatcher.Core.Tests\Dibware.EventDispatcher.Core.Tests.csproj", "{3AA40CE5-ABEC-47AE-ABB9-654F0A3237E5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dibware.EventDispatcher.Core.PackageLoader", "Tests\Dibware.EventDispatcher.Core.PackageLoader\Dibware.EventDispatcher.Core.PackageLoader.csproj", "{BFCB0489-6098-4E74-87E6-A8617D358DBA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -44,6 +49,10 @@ Global
 		{3AA40CE5-ABEC-47AE-ABB9-654F0A3237E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3AA40CE5-ABEC-47AE-ABB9-654F0A3237E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3AA40CE5-ABEC-47AE-ABB9-654F0A3237E5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BFCB0489-6098-4E74-87E6-A8617D358DBA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BFCB0489-6098-4E74-87E6-A8617D358DBA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BFCB0489-6098-4E74-87E6-A8617D358DBA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BFCB0489-6098-4E74-87E6-A8617D358DBA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -52,5 +61,6 @@ Global
 		{0D4A3874-1367-4F21-8A1C-7BC58EDC7179} = {0814BCE2-A0E3-4955-AE9E-80413094DAF5}
 		{63B0082B-D59C-4D0A-A3B5-D24CAFD8C4D0} = {5B994D03-7A2E-4232-BCAE-43493EAF8EA0}
 		{3AA40CE5-ABEC-47AE-ABB9-654F0A3237E5} = {71A0CF5B-A473-4B5B-8FFA-4AC3AC791D25}
+		{BFCB0489-6098-4E74-87E6-A8617D358DBA} = {71A0CF5B-A473-4B5B-8FFA-4AC3AC791D25}
 	EndGlobalSection
 EndGlobal

@@ -9,6 +9,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documents", "Documents", "{
 		Documentation\BlogPost_Pt2.md = Documentation\BlogPost_Pt2.md
 		Documentation\BlogPost_Pt3.md = Documentation\BlogPost_Pt3.md
 		Documentation\BlogPost_Pt4.md = Documentation\BlogPost_Pt4.md
+		README.md = README.md
 		Documentation\UsingResharperToCreateAnImmutableClass.md = Documentation\UsingResharperToCreateAnImmutableClass.md
 	EndProjectSection
 EndProject

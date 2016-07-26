@@ -8,3 +8,6 @@ Or refer to the original blog posts here:
 * [Part Two] (http://www.duanewingett.info/2016/02/11/CentralisedEventDispatcherInCPart2.aspx)
 * [Part Three] (http://www.duanewingett.info/2016/02/11/CentralisedEventDispatcherInCPart3.aspx)
 * [Part Four] (http://www.duanewingett.info/2016/02/19/CentralisedEventDispatcherInCPart4.aspx)
+
+## NuGet
+This package is available as *Dibware.EventDispatcher.Core*

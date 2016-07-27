@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.40629.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documents", "Documents", "{4B142BA3-35C1-4FEE-AD53-DAD17FEC29F4}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documentation", "Documentation", "{4B142BA3-35C1-4FEE-AD53-DAD17FEC29F4}"
 	ProjectSection(SolutionItems) = preProject
 		Documentation\BlogPost_Pt1.md = Documentation\BlogPost_Pt1.md
 		Documentation\BlogPost_Pt2.md = Documentation\BlogPost_Pt2.md
